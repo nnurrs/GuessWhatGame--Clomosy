@@ -1,1 +1,3 @@
 # GUESS WHAT GAME
+Guess What, Clomosy ve TRObject dili kullanılarak geliştirilen bir kelime oyunudur. Bu oyunun amacı, seçilen kategoriye ait karışık harflerle gelen kelimeleri bulmaktır. Asıl kelimenin harfleri karışık olacak şekilde ve bunlara ek olarak üç tane rasgele harf asıl kelimenin harfleri arasında karışık şekilde gelir. Kullanıcı eğer isterse her seferinde bir harf olacak şekilde toplamda 2 asıl kelime ile alakası olmayan harfi ipucu butonunu kullanarak kaldırabilir. Kullanıcıya oyunun başında üç tane can verilir. Her yanlış tahmin edilen kelimede bir canı eksilir. 
+-------------------------------------------------------------------
