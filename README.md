@@ -3,9 +3,9 @@ Guess What, Clomosy ve TRObject dili kullanılarak geliştirilen bir kelime oyun
 
 ## Uygulama içindeki ekranlar
 
-### 1- Giriş Ekranı:
+### 1- Ana Ekran:
 
-![WhatsApp Görsel 2024-08-22 saat 12 46 53_9803c036](https://github.com/user-attachments/assets/22c3bc6f-d313-48e9-9648-06a260d1f40c)
+![anaEkran](https://github.com/user-attachments/assets/f0dd1b70-a858-407f-930c-8a01f27954b7)
 
 
 ### 2- Nasıl Oynanır Ekranı:
