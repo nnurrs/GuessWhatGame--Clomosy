@@ -1,0 +1,700 @@
+var  
+MyForm,baslaForm,oyunForm: TclForm;
+arkaPlanImg: TCLImage;
+baslaButon,nasiloynanirButon,fruitsButon,animalsButon,colorsButon,jobsButon,tahminEtProButton : TClProButton;
+fruitsList,animalsList,colorsList,jobsList: TclStringList;
+kelimeProLabel, kategoriProLabel,karistirilmisProLabel,tahminetProLabel: TClProLabel;
+tahminProEdit: TclProEdit;
+karisikKelime: String;
+i: Integer;
+yedeklabel : TClProLabel;
+orijinalKelime: String;
+canSayisi: Integer;
+selectedList: TclStringList;
+kelimeIndex: Integer;
+canSayisiLabel: TClProLabel;
+kalpImg, kirikKalpImg: TCLImage;
+ipucuProButon,bilgiVerButon: TClProButton;
+ipucuTiklamaSayisi: Integer;
+btnSound:TclProButton;
+MediaPlayerStart,MediaPlayerGiris, MediaPlayerDogru,MediaPlayerYanlis,MediaPlayerGameOver, MediaPlayerWin : TclMediaPlayer;
+Panel1,Panel : TclProPanel;
+n : Integer;
+clickedBtn:TClButton;
+
+function harfleriKaristir(List:TclStringList);
+var
+i,j, k, RandomIndex: Integer;
+harfListesi, alfabe, randomHarfler: TclStringList;
+TempChar: String;
+{
+  alfabe = Clomosy.StringListNew;
+  alfabe.Add('a'); alfabe.Add('b');  alfabe.Add('c');
+  alfabe.Add('d'); alfabe.Add('e');  alfabe.Add('f');
+  alfabe.Add('g'); alfabe.Add('h');  alfabe.Add('i');
+  alfabe.Add('j'); alfabe.Add('k');  alfabe.Add('l');
+  alfabe.Add('m'); alfabe.Add('n');  alfabe.Add('o');
+  alfabe.Add('p'); alfabe.Add('q');  alfabe.Add('r');
+  alfabe.Add('s'); alfabe.Add('t');  alfabe.Add('u');
+  alfabe.Add('v'); alfabe.Add('w');  alfabe.Add('x');
+  alfabe.Add('y'); alfabe.Add('z');
+  if (kelimeIndex < List.Count) 
+  {
+    orijinalKelime = List[kelimeIndex];
+
+    harfListesi = Clomosy.StringListNew;
+    harfListesi.Capacity = Length(List[kelimeIndex]) + 3;
+    for j = 1 to Length(orijinalKelime) 
+    {
+      harfListesi.Add(Copy(orijinalKelime, j, 1));
+    }
+  
+    // Rasgele 3 harf ekleme
+    randomHarfler = Clomosy.StringListNew;
+    for j = 1 to 3 
+    {
+      RandomIndex = Round(Random(alfabe.Count - 1));
+      randomHarfler.Add(alfabe[RandomIndex]);
+    }
+   
+    for j = 0 to randomHarfler.Count - 1
+    {
+      harfListesi.Add(randomHarfler[j]);
+    }
+ 
+    // Karıştırma
+    for k = 0 to harfListesi.Count - 1 
+    {
+      RandomIndex = Round(Random(harfListesi.Count - 1));
+      TempChar = harfListesi[k];
+      harfListesi[k] = harfListesi[RandomIndex];
+      harfListesi[RandomIndex] = TempChar;
+    }
+   
+    // Karışık kelimeyi oluştur
+    karisikKelime = '';
+    for k = 0 to harfListesi.Count - 1 
+    {
+      karisikKelime = karisikKelime + harfListesi[k];
+    }
+    
+    if(kelimeIndex == 0)
+    {
+    kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
+    clComponent.SetupComponent(kelimeProLabel, '{ "Align": "Center", "MarginBottom": 150, "Width": 340, "Height": 60, "TextSize": 25, "TextHorizontalAlign": "Center", "TextVerticalAlign": "Center", "TextBold": "Yes", "BackgroundColor": "#fefbec", "RoundHeight": 8, "RoundWidth": 8, "BorderColor": "#94ae89", "BorderWidth": 2 }');
+    kelimeProLabel.Text = karisikKelime;
+    }
+    else
+    kelimeProLabel.Text = karisikKelime; 
+  }
+}
+void bilgiVerClick;
+{
+  ShowMessage('İstersen ipucu butonunu kullanarak, her seferinde 1 harf olacak şekilde toplamda asıl kelimeye ait olmayan 2 harfi çıkarabilirsin!');
+}
+
+void ipucuClick;
+var
+  j: Integer;
+  randomHarfler: TclStringList;
+  indexToRemove: Integer;
+{
+  if ipucuTiklamaSayisi < 2
+  {
+   ipucuTiklamaSayisi = ipucuTiklamaSayisi + 1;
+    // Eğer kelime zaten tamamen tahmin edilmişse veya hiç rastgele harf eklenmemişse, ipucu verilmeyecek
+    if (kelimeIndex < selectedList.Count) 
+    {
+      orijinalKelime = selectedList[kelimeIndex];
+      randomHarfler = Clomosy.StringListNew;
+  
+      // Orijinal kelimeyi içermeyen harfleri bul ve randomHarfler listesine ekle
+      for j = 0 to Length(karisikKelime) - 1 
+      {
+        if Pos(Copy(karisikKelime, j + 1, 1), orijinalKelime) == 0  
+        {
+          randomHarfler.Add(Copy(karisikKelime, j + 1, 1));
+        }
+      }
+  
+      // Eğer rastgele harfler varsa, bunlardan birini sil
+      if randomHarfler.Count > 0  
+      {
+        indexToRemove = Round(Random(randomHarfler.Count - 1));
+  
+        // Bu harfi karisikKelime'den çıkar
+        for j = 1 to Length(karisikKelime) 
+        {
+          if Copy(karisikKelime, j, 1) == randomHarfler[indexToRemove]  
+          {
+            karisikKelime = Copy(karisikKelime, 1, j - 1) + Copy(karisikKelime, j + 1, Length(karisikKelime) - j);
+            Break;
+          }
+        }
+  
+        // Yeni karışık kelimeyi label'a yazdır
+        yedeklabel = oyunForm.clFindComponent('kelimeProLabel');
+        if (yedeklabel <> nil) 
+        {
+          yedeklabel.Text = karisikKelime;
+        }
+        else
+        {
+          kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
+          clComponent.SetupComponent(kelimeProLabel, '{ "Align": "Center", "MarginBottom": 150, "Width": 340, "Height": 60, "TextSize": 25, "TextHorizontalAlign": "Center", "TextVerticalAlign": "Center", "TextBold": "Yes", "BackgroundColor": "#fefbec", "RoundHeight": 8, "RoundWidth": 8, "BorderColor": "#94ae89", "BorderWidth": 2 }');
+        }
+      }
+    }
+    if ipucuTiklamaSayisi == 2
+    {
+      ipucuProButon.enabled=false;
+      ShowMessage('İpucu alma hakkın bitti!');
+    }
+    
+  }
+}
+
+void VirtualKeyboardShow;
+ {
+  clComponent.SetupComponent(tahminProEdit,'{"MarginTop":80}');
+  clComponent.SetupComponent(tahminetProLabel,'{"MarginBottom":100}');
+
+ }
+ 
+ void VirtualKeyboardHidden;
+ {
+    clComponent.SetupComponent(tahminProEdit,'{"MarginTop":280}');
+    clComponent.SetupComponent(tahminetProLabel,'{"MarginBottom":5}');
+
+ }
+
+
+void KategoriSecimi;
+{
+  ipucuTiklamaSayisi = 0;
+ 
+  oyunForm = TCLForm.Create(Self);
+  oyunForm.SetFormBGImage('https://i.imgur.com/0ozkr4m.png');
+  
+  oyunForm.AddAssetFromUrl('https://raw.githubusercontent.com/nnurrs/GuessWhatGame/main/startGame.mp3');
+  MediaPlayerStart = TclMediaPlayer.Create(oyunForm);
+  MediaPlayerStart.FileName = clPathCombine('startGame.mp3',Clomosy.AppFilesPath);
+  
+  MediaPlayerStart.CurrentTime = 0;
+  MediaPlayerStart.Play;
+  
+  ipucuProButon = oyunForm.AddNewProButton(oyunForm,'ipucuProButon','');
+  clComponent.SetupComponent(ipucuProButon,'{
+    "MarginTop": 520,
+    "MarginRight":250,
+    "Width": 100,
+    "Height":100,
+    "RoundHeight" : 8,
+    "RoundWidth" : 8,
+    "BackgroundColor":"#fefbec",
+    "BorderColor":"#94ae89",
+    "BorderWidth" : 2
+  }')
+  oyunForm.SetImage(ipucuProButon,'https://i.imgur.com/APqcqdT.png');
+  oyunForm.AddNewEvent(ipucuProButon,tbeOnClick,'ipucuClick');
+  
+  bilgiVerButon = oyunForm.AddNewProButton(oyunForm,'bilgiVerButon','');
+  clComponent.SetupComponent(bilgiVerButon,'{
+    "MarginBottom": 520,
+    "MarginLeft":250,
+    "Width": 50,
+    "Height":50,
+    "RoundHeight" : 8,
+    "RoundWidth" : 8,
+    "BackgroundColor":"null",
+    "BorderColor":"#94ae89",
+    "BorderWidth" : 2
+  }')
+  oyunForm.SetImage(bilgiVerButon,'https://i.imgur.com/rLIsfEP.png');
+  oyunForm.AddNewEvent(bilgiVerButon,tbeOnClick,'bilgiVerClick');
+  
+  kalpImg = oyunForm.AddNewImage(oyunForm, 'kalpImg');
+  kalpImg.Align=alClient;
+  kalpImg.Margins.Top=8;
+  kalpImg.Margins.Bottom = 550;
+  kalpImg.Margins.Right =285;
+  
+  oyunForm.SetImage(kalpImg,'https://i.hizliresim.com/fqi125d.png');
+  
+  canSayisiLabel = oyunForm.AddNewProLabel(oyunForm, 'canSayisiLabel', 'Kalan Can Sayın: '+IntToStr(canSayisi));
+  clComponent.SetupComponent(canSayisiLabel, '{
+    "MarginBottom": 410,
+    "MarginRight": 240,
+    "MarginLeft":150,
+    "TextSize": 16,
+    "TextBold": "Yes",   
+    "Width":150,
+    "Height" :150
+  }')
+  
+  karistirilmisProLabel = oyunForm.AddNewProLabel(oyunForm,'karistirilmisProLabel','KELİMENİN KARIŞTIRILMIŞ
+  HALİ:');
+  clComponent.SetupComponent(karistirilmisProLabel,'{
+    "Align":"Center",
+    "MarginBottom" : 350,
+    "Width":400,
+    "Height" :50,
+    "TextSize" : 25,
+    "TextVerticalAlign": "Center",
+    "TextHorizontalAlign" :"Center",
+    "TextBold": "Yes"
+  }')
+
+  tahminetProLabel = oyunForm.AddNewProLabel(oyunForm,'tahminetProLabel','TAHMİN ET:');
+  clComponent.SetupComponent(tahminetProLabel,'{
+    "Align":"Center",
+    "MarginTop" : 70,
+    "Width":400,
+    "Height" :300,
+    "TextSize" : 25,
+    "TextVerticalAlign": "Center",
+    "TextHorizontalAlign" :"Center",
+    "TextBold": "Yes"
+  }')
+  
+  tahminProEdit = oyunForm.AddNewProEdit(oyunForm, 'tahminProEdit', 'Tahminini Gir...');
+  clComponent.SetupComponent(tahminProEdit,'{
+    "Align" : "Center",
+    "MarginTop":280,
+    "Width":340,
+    "Height":60,
+    "TextSize" :25,
+    "TextHorizontalAlign " : "Center",
+    "TextVerticalAlign" : "Center",
+    "TextBold":"Yes",
+    "BackgroundColor":"#fefbec",
+    "RoundHeight":8,
+    "RoundWidth":8,
+    "BorderColor":"#94ae89",
+    "BorderWidth":2
+    
+  }')
+  oyunForm.AddNewEvent(oyunForm,tbeOnVirtualKeyboardShown,'VirtualKeyboardShow');
+  oyunForm.AddNewEvent(oyunForm,tbeOnVirtualKeyboardHidden,'VirtualKeyboardHidden')
+  
+  tahminProEdit.clTypeOfField = taString; 
+
+  tahminEtProButton = oyunForm.AddNewProButton(oyunForm, 'tahminEtProButton', 'KONTROL ET');
+  clComponent.SetupComponent(tahminEtProButton,
+  '{
+  "Align" : "Center",
+  "TextSize":15, 
+  "MarginTop" : 520,
+  "MarginLeft":200,
+  "Width" : 200,
+  "Height" : 50,
+  "RoundHeight" : 8,
+  "RoundWidth" : 8,
+  "BackgroundColor":"#fefbec",
+  "BorderColor":"#94ae89",
+  "BorderWidth" : 2
+  }');
+  oyunForm.AddNewEvent(tahminEtProButton,tbeOnClick,'tahminEtButonClick');
+  
+  oyunForm.Run;
+}
+
+
+
+void fruitsButonClick;
+{
+  fruitsList = Clomosy.StringListNew;
+  fruitsList.Capacity = 10;
+
+  fruitsList.Add('apple');
+  fruitsList.Add('banana');
+  fruitsList.Add('orange');
+  fruitsList.Add('mango');
+  fruitsList.Add('watermelon');
+  fruitsList.Add('cherry');
+  fruitsList.Add('lemon');
+  fruitsList.Add('strawberry');
+  fruitsList.Add('grape');
+  fruitsList.Add('pineapple');
+
+  kelimeIndex = 0; 
+  selectedList = fruitsList;
+  KategoriSecimi;
+
+  harfleriKaristir(selectedList);
+  
+}
+
+void animalsButonClick;
+{
+  animalsList = Clomosy.StringListNew;
+  animalsList.Capacity = 10;
+
+  animalsList.Add('cat');
+  animalsList.Add('dog');
+  animalsList.Add('elephant');
+  animalsList.Add('tiger');
+  animalsList.Add('lion');
+  animalsList.Add('giraffe');
+  animalsList.Add('zebra');
+  animalsList.Add('monkey');
+  animalsList.Add('bear');
+  animalsList.Add('dolphin');
+  
+  kelimeIndex = 0;
+  selectedList = animalsList;
+  KategoriSecimi;
+  harfleriKaristir(selectedList);
+ 
+}
+
+void colorsButonClick;
+{
+  colorsList = Clomosy.StringListNew;
+  colorsList.Capacity = 10;
+
+  colorsList.Add('red');
+  colorsList.Add('blue');
+  colorsList.Add('green');
+  colorsList.Add('yellow');
+  colorsList.Add('black');
+  colorsList.Add('white');
+  colorsList.Add('pink');
+  colorsList.Add('orange');
+  colorsList.Add('purple');
+  colorsList.Add('brown');
+  
+  kelimeIndex = 0;
+  selectedList = colorsList;
+  KategoriSecimi;
+  harfleriKaristir(selectedList);
+  
+}
+
+void jobsButonClick;
+{
+  jobsList = Clomosy.StringListNew;
+  jobsList.Capacity = 10;
+
+  jobsList.Add('doctor');
+  jobsList.Add('teacher');
+  jobsList.Add('engineer');
+  jobsList.Add('nurse');
+  jobsList.Add('lawyer');
+  jobsList.Add('architect');
+  jobsList.Add('chef');
+  jobsList.Add('artist');
+  jobsList.Add('police');
+  jobsList.Add('journalist');
+
+  kelimeIndex = 0;
+  selectedList = jobsList;
+  KategoriSecimi;
+  harfleriKaristir(selectedList);
+
+}
+
+
+void baslaButonClick;
+{
+  canSayisi = 3;
+  baslaForm = TCLForm.Create(Self);
+  baslaForm.SetFormBGImage('https://i.hizliresim.com/idbvtzn.png');
+  
+  kategoriProLabel = baslaForm.AddNewProLabel(baslaForm,'kategoriProLabel','HADİ BİR KATEGORİ SEÇ
+  VE 
+  TAHMİN ETMEYE BAŞLA!');
+  clComponent.SetupComponent(kategoriProLabel,'{
+    "Align":"Center",
+    "MarginBottom" : 520,
+    "Width":400,
+    "Height" :300,
+    "TextSize" : 25,
+    "TextVerticalAlign": "Center",
+    "TextHorizontalAlign" :"Center",
+    "TextBold": "Yes"
+  }')
+    
+  fruitsButon = baslaForm.AddNewProButton(baslaForm, 'fruitsButon', 'Fruits');
+  clComponent.SetupComponent(fruitsButon,
+  '{
+  "Align" : "Center",
+  "TextSize":20, 
+  "MarginBottom" : 150,
+  "MarginRight":200,
+  "Width" : 170,
+  "Height" : 170,
+  "RoundHeight" : 8,
+  "RoundWidth" : 8,
+  "Bordercolor" : "#8eaaad",
+  "BackgroundColor":"#fefbec", 
+  "BorderWidth" : 2
+  
+  }');
+  baslaForm.AddNewEvent(fruitsButon,tbeOnClick,'fruitsButonClick');
+  //-------------------------------------------------------------------------------
+  animalsButon = baslaForm.AddNewProButton(baslaForm, 'animalsButon', 'Animals');
+  clComponent.SetupComponent(animalsButon,
+  '{
+  "Align" : "Center",
+  "TextSize":20, 
+  "MarginBottom" : 150,
+  "MarginLeft":200,
+  "Width" : 170,
+  "Height" : 170,
+  "RoundHeight" : 8,
+  "RoundWidth" : 8,
+  "Bordercolor" : "#8eaaad",
+  "BackgroundColor":"#fefbec", 
+  "BorderWidth" : 2
+  
+  }');
+  baslaForm.AddNewEvent(animalsButon,tbeOnClick,'animalsButonClick');
+  //--------------------------------------------------------------------------
+  colorsButon = baslaForm.AddNewProButton(baslaForm, 'colorsButon', 'Colors');
+  clComponent.SetupComponent(colorsButon,
+  '{
+  "Align" : "Center",
+  "TextSize":20, 
+  "MarginTop" : 250,
+  "MarginRight":200,
+  "Width" : 170,
+  "Height" : 170,
+  "RoundHeight" : 8,
+  "RoundWidth" : 8,
+  "Bordercolor" : "#8eaaad",
+  "BackgroundColor":"#fefbec", 
+  "BorderWidth" : 2
+  
+  }');
+  baslaForm.AddNewEvent(colorsButon,tbeOnClick,'colorsButonClick');
+  //--------------------------------------------------------------------
+  jobsButon = baslaForm.AddNewProButton(baslaForm, 'jobsButon', 'Jobs');
+  clComponent.SetupComponent(jobsButon,
+  '{
+  "Align" : "Center",
+  "TextSize":20, 
+  "MarginTop" : 250,
+  "MarginLeft":200,
+  "Width" : 170,
+  "Height" : 170,
+  "RoundHeight" : 8,
+  "RoundWidth" : 8,
+  "Bordercolor" : "#8eaaad",
+  "BackgroundColor":"#fefbec", 
+  "BorderWidth" : 2
+  
+  }');
+  baslaForm.AddNewEvent(jobsButon,tbeOnClick,'jobsButonClick');
+  //-------------------------------------------------------------
+  
+
+  baslaForm.Run;
+}
+
+void kalanHak;
+{
+  oyunForm.AddAssetFromUrl('https://raw.githubusercontent.com/nnurrs/GuessWhatGame/main/yanlisKelime.mp3');
+  MediaPlayerYanlis = TclMediaPlayer.Create(oyunForm);
+  MediaPlayerYanlis.FileName = clPathCombine('yanlisKelime.mp3',Clomosy.AppFilesPath);
+  
+  
+  MediaPlayerStart.CurrentTime = 0;
+  MediaPlayerStart.Play;
+  if (canSayisi > 0)
+   {
+     Dec(canSayisi);
+    canSayisiLabel.Text = 'Kalan Can Sayın: '+IntToStr(canSayisi);
+    
+     if (canSayisi == 2)
+      { 
+          MediaPlayerYanlis.CurrentTime = 0;
+  MediaPlayerYanlis.Play;
+  MediaPlayerStart.Stop;
+        ShowMessage('Yanlış tahmin! Kalan can sayın: '+ IntToStr(canSayisi));
+      }  
+      else if (canSayisi == 1)
+      {     
+        MediaPlayerYanlis.CurrentTime = 0;
+  MediaPlayerYanlis.Play;
+  MediaPlayerStart.Stop;;
+        ShowMessage('Yanlış tahmin! Kalan can sayın: '+ IntToStr(canSayisi));
+      }  
+      else if (canSayisi == 0)
+      {
+      MediaPlayerStart.Stop;
+        ShowMessage('Oyun bitti! Geriye hiç canın kalmadı :(
+Doğru kelime: '+ orijinalKelime+'
+Hadi Tekrar Oyna!');
+        
+      oyunForm.BtnGoBackClick(self);
+      
+      canSayisi=3;
+      baslaForm.AddAssetFromUrl('https://raw.githubusercontent.com/nnurrs/GuessWhatGame/main/gameOver.mp3');
+      MediaPlayerGameOver = TclMediaPlayer.Create(baslaForm);
+      MediaPlayerGameOver.FileName = clPathCombine('gameOver.mp3',Clomosy.AppFilesPath);
+      
+      MediaPlayerGameOver.CurrentTime = 0;
+      MediaPlayerGameOver.Play;
+     }
+   }
+}
+
+void dogruKelimeCal; 
+{
+  MediaPlayerDogru.CurrentTime = 0;
+  MediaPlayerDogru.Play;
+}
+
+
+void tahminEtButonClick;
+var 
+  tahminEdilenKelime: String;
+  karsilastir: Integer;
+{
+  oyunForm.AddAssetFromUrl('https://raw.githubusercontent.com/nnurrs/GuessWhatGame/main/kelime_dogru.mp3');
+  MediaPlayerDogru = TclMediaPlayer.Create(oyunForm);
+  MediaPlayerDogru.FileName = clPathCombine('kelime_dogru.mp3',Clomosy.AppFilesPath);
+  
+  
+  tahminEdilenKelime= LowerCase(tahminProEdit.Text);
+
+  karsilastir= AnsiCompareText(tahminEdilenKelime,LowerCase(orijinalKelime));
+  if (karsilastir == 0) 
+  {
+    if (kelimeIndex < selectedList.Count-1) 
+    {
+      dogruKelimeCal;
+      ShowMessage('Doğru bildin! Hadi diğer kelimeye geç!');
+      kelimeIndex = kelimeIndex + 1; // Bir sonraki kelimeye geç
+
+      harfleriKaristir(selectedList); // Yeni kelimeyi karıştır ve göster
+
+    } 
+    else 
+    {
+      baslaForm.AddAssetFromUrl('https://raw.githubusercontent.com/nnurrs/GuessWhatGame/main/winGame.mp3');
+      MediaPlayerWin = TclMediaPlayer.Create(baslaForm);
+      MediaPlayerWin.FileName = clPathCombine('winGame.mp3',Clomosy.AppFilesPath);
+  
+      MediaPlayerWin.CurrentTime = 0;
+      MediaPlayerWin.Play;
+  
+      ShowMessage('Tebrikler! Tüm kelimeleri doğru tahmin ettin!
+Hadi bir kategori daha seç ve kelimeleri bulmaya devam et!');
+       
+      oyunForm.BtnGoBackClick(Self);
+      canSayisi=3;
+    }
+  }
+  else
+  {
+   kalanHak;
+  }
+  tahminProEdit.Text = '';
+}
+void nasiloynanirButonClick;
+{
+  ShowMessage('Guess What oyununa hoş geldiniz! Bu oyunda, karışık halde verilen harflerden anlamlı bir kelime oluşturmanız beklenmektedir. 
+Oyunun amacı, verilen harfleri kullanarak doğru kelimeyi bulmaktır. Seçilen kategori ile ilgili gelen kelimenin harfleri karışık gelir. Ayrıca kelimeye ait olmayan harfler de bu karışık harflerin arasında yer alır.
+Haydi Başla butonuna tıkla, ardından bir kategori seç ve eğlenmeye başla!');
+}
+
+void girisMuzikCal;
+var
+clickedBtn:TClButton;
+{
+  clickedBtn = TClButton(MyForm.Clsender); 
+  if clickedBtn.Hint == '0'  
+  {
+    MediaPlayerGiris.CurrentTime = 0;
+    MediaPlayerGiris.Play;
+  }
+  else
+  {
+    MediaPlayerGiris.Stop;
+  }
+}
+
+{
+  MyForm = TCLForm.Create(Self);
+  MyForm.SetFormBGImage('https://i.imgur.com/rLwQoPD.png');
+
+  MyForm.AddAssetFromUrl('https://raw.githubusercontent.com/nnurrs/GuessWhatGame/main/girisMuzik.mp3');
+  MediaPlayerGiris = TclMediaPlayer.Create(MyForm);
+  MediaPlayerGiris.FileName = clPathCombine('girisMuzik.mp3',Clomosy.AppFilesPath);
+  
+
+  Panel = MyForm.AddNewProPanel(MyForm,'Panel');
+  clComponent.SetupComponent(Panel,'{
+    "BorderColor": "#8eaaad",
+    "BackgroundColor": "#ffffff", 
+    "RoundHeight": 8, 
+    "RoundWidth": 8, 
+    "BorderWidth":2,
+    "Height":70
+     }')
+    Panel.Align =alClient;
+    Panel.Margins.Left = 140;
+    Panel.Margins.Right = 140;
+    Panel.Margins.Top =465;
+    Panel.Margins.Bottom = 250;
+  
+  for n = 0 to 1 
+  {
+    if n == 0 
+    {
+      btnSound = MyForm.AddNewProButton(Panel,'btnSound'+IntToStr(n), '');
+      MyForm.SetImage(btnSound,'https://i.imgur.com/9bCphC3.png');
+
+      btnSound.Align = AlLeft;
+    }  
+    else
+    {
+      btnSound = MyForm.AddNewProButton(Panel,'btnSound'+IntToStr(n), ''); 
+      MyForm.SetImage(btnSound,'https://i.hizliresim.com/8zxmydm.png');
+
+      btnSound.Align = AlRight;
+    }
+    btnSound.width = Panel.width / 2;
+    btnSound.Hint = IntToStr(n);
+    MyForm.AddNewEvent(btnSound,tbeOnClick,'girisMuzikCal');
+  }
+  
+  baslaButon = MyForm.AddNewProButton(MyForm, 'baslaButon', 'BAŞLA');
+  clComponent.SetupComponent(baslaButon,
+  '{
+  "Align" : "Center",
+  "TextSize":25, 
+  "MarginBottom" : 135,
+  "Width" : 250,
+  "Height" : 70,
+  "RoundHeight" : 5,
+  "RoundWidth" : 5,
+  "Bordercolor" : "#8eaaad",
+  "BorderWidth" : 2
+  
+  }');
+  MyForm.AddNewEvent(baslaButon,tbeOnClick,'baslaButonClick');
+  
+  
+  nasiloynanirButon = MyForm.AddNewProButton(MyForm, 'nasiloynanirButon', 'NASIL OYNANIR?');
+  clComponent.SetupComponent(nasiloynanirButon,
+  '{
+  "Align" : "Center",
+  "TextSize":25, 
+  "MarginTop" : 40,
+  "Width" : 250,
+  "Height" : 70,
+  "RoundHeight" : 5,
+  "RoundWidth" : 5,
+  "Bordercolor" : "#8eaaad",
+  "BorderWidth" : 2
+  
+  }');
+  MyForm.AddNewEvent(nasiloynanirButon,tbeOnClick,'nasiloynanirButonClick');
+  
+  MyForm.Run;
+
+}
+
