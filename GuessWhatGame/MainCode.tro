@@ -81,7 +81,20 @@ TempChar: String;
     if(kelimeIndex == 0)
     {
     kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
-    clComponent.SetupComponent(kelimeProLabel, '{ "Align": "Center", "MarginBottom": 150, "Width": 340, "Height": 60, "TextSize": 25, "TextHorizontalAlign": "Center", "TextVerticalAlign": "Center", "TextBold": "Yes", "BackgroundColor": "#fefbec", "RoundHeight": 8, "RoundWidth": 8, "BorderColor": "#94ae89", "BorderWidth": 2 }');
+    kelimeProLabel.Align=alCenter;
+    kelimeProLabel.Margins.Bottom=150;
+    kelimeProLabel.Width=340;
+    kelimeProLabel.Height=60;
+    kelimeProLabel.clProSettings.FontSize =25;
+    kelimeProLabel.clProSettings.FontVertAlign=palCenter;
+    kelimeProLabel.clProSettings.FontHorzAlign=palCenter;
+    kelimeProLabel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+    kelimeProLabel.clProSettings.RoundHeight = 8;
+    kelimeProLabel.clProSettings.RoundWidth = 8;
+    kelimeProLabel.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+    kelimeProLabel.clProSettings.BorderWidth=2;
+    kelimeProLabel.SetclProSettings(kelimeProLabel.clProSettings);
+    
     kelimeProLabel.Text = karisikKelime;
     }
     else
@@ -141,7 +154,22 @@ var
         else
         {
           kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
-          clComponent.SetupComponent(kelimeProLabel, '{ "Align": "Center", "MarginBottom": 150, "Width": 340, "Height": 60, "TextSize": 25, "TextHorizontalAlign": "Center", "TextVerticalAlign": "Center", "TextBold": "Yes", "BackgroundColor": "#fefbec", "RoundHeight": 8, "RoundWidth": 8, "BorderColor": "#94ae89", "BorderWidth": 2 }');
+
+           kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
+            kelimeProLabel.Align=alCenter;
+            kelimeProLabel.Margins.Bottom=150;
+            kelimeProLabel.Width=340;
+            kelimeProLabel.Height=60;
+            kelimeProLabel.clProSettings.FontSize =25;
+            kelimeProLabel.clProSettings.FontVertAlign=palCenter;
+            kelimeProLabel.clProSettings.FontHorzAlign=palCenter;
+            kelimeProLabel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+            kelimeProLabel.clProSettings.RoundHeight = 8;
+            kelimeProLabel.clProSettings.RoundWidth = 8;
+            kelimeProLabel.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+            kelimeProLabel.clProSettings.BorderWidth=2;
+            kelimeProLabel.SetclProSettings(kelimeProLabel.clProSettings);
+            
         }
       }
     }
@@ -156,16 +184,15 @@ var
 
 void VirtualKeyboardShow;
  {
-  clComponent.SetupComponent(tahminProEdit,'{"MarginTop":80}');
-  clComponent.SetupComponent(tahminetProLabel,'{"MarginBottom":100}');
+  tahminProEdit.Margins.Top=80;
+  tahminetProLabel.Margins.Bottom=100;
 
  }
  
  void VirtualKeyboardHidden;
  {
-    clComponent.SetupComponent(tahminProEdit,'{"MarginTop":280}');
-    clComponent.SetupComponent(tahminetProLabel,'{"MarginBottom":5}');
-
+    tahminProEdit.Margins.Top=280;
+    tahminetProLabel.Margins.Bottom=5;
  }
 
 
@@ -184,32 +211,37 @@ void KategoriSecimi;
   MediaPlayerStart.Play;
   
   ipucuProButon = oyunForm.AddNewProButton(oyunForm,'ipucuProButon','');
-  clComponent.SetupComponent(ipucuProButon,'{
-    "MarginTop": 520,
-    "MarginRight":250,
-    "Width": 100,
-    "Height":100,
-    "RoundHeight" : 8,
-    "RoundWidth" : 8,
-    "BackgroundColor":"#fefbec",
-    "BorderColor":"#94ae89",
-    "BorderWidth" : 2
-  }')
+
+    ipucuProButon.Margins.Top=520;
+    ipucuProButon.Width=100;
+    ipucuProButon.Height=100;
+    ipucuProButon.Margins.Right=250;
+    ipucuProButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+    ipucuProButon.clProSettings.RoundHeight = 8;
+    ipucuProButon.clProSettings.RoundWidth = 8;
+    ipucuProButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+    ipucuProButon.clProSettings.BorderWidth=2;
+    ipucuProButon.SetclProSettings(ipucuProButon.clProSettings);
+            
+  
   oyunForm.SetImage(ipucuProButon,'https://i.imgur.com/APqcqdT.png');
   oyunForm.AddNewEvent(ipucuProButon,tbeOnClick,'ipucuClick');
   
   bilgiVerButon = oyunForm.AddNewProButton(oyunForm,'bilgiVerButon','');
-  clComponent.SetupComponent(bilgiVerButon,'{
-    "MarginBottom": 520,
-    "MarginLeft":250,
-    "Width": 50,
-    "Height":50,
-    "RoundHeight" : 8,
-    "RoundWidth" : 8,
-    "BackgroundColor":"null",
-    "BorderColor":"#94ae89",
-    "BorderWidth" : 2
-  }')
+
+    bilgiVerButon.Margins.Bottom=520;
+    bilgiVerButon.Width=50;
+    bilgiVerButon.Height=50;
+    bilgiVerButon.Margins.Left=250;
+   // bilgiVerButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('null');
+    bilgiVerButon.clProSettings.RoundHeight = 8;
+    bilgiVerButon.clProSettings.RoundWidth = 8;
+    bilgiVerButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+    bilgiVerButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+    bilgiVerButon.clProSettings.BorderWidth=2;
+    bilgiVerButon.SetclProSettings(bilgiVerButon.clProSettings);
+            
+            
   oyunForm.SetImage(bilgiVerButon,'https://i.imgur.com/rLIsfEP.png');
   oyunForm.AddNewEvent(bilgiVerButon,tbeOnClick,'bilgiVerClick');
   
@@ -222,78 +254,75 @@ void KategoriSecimi;
   oyunForm.SetImage(kalpImg,'https://i.hizliresim.com/fqi125d.png');
   
   canSayisiLabel = oyunForm.AddNewProLabel(oyunForm, 'canSayisiLabel', 'Kalan Can Sayın: '+IntToStr(canSayisi));
-  clComponent.SetupComponent(canSayisiLabel, '{
-    "MarginBottom": 410,
-    "MarginRight": 240,
-    "MarginLeft":150,
-    "TextSize": 16,
-    "TextBold": "Yes",   
-    "Width":150,
-    "Height" :150
-  }')
+
+  canSayisiLabel.Margins.Bottom=410;
+  canSayisiLabel.Width=150;
+  canSayisiLabel.Height=150;
+  canSayisiLabel.clProSettings.FontSize = 16;
+  canSayisiLabel.Margins.Right=240;
+  canSayisiLabel.Margins.Left=150;
+  canSayisiLabel.SetclProSettings(canSayisiLabel.clProSettings);
+      
   
   karistirilmisProLabel = oyunForm.AddNewProLabel(oyunForm,'karistirilmisProLabel','KELİMENİN KARIŞTIRILMIŞ
   HALİ:');
-  clComponent.SetupComponent(karistirilmisProLabel,'{
-    "Align":"Center",
-    "MarginBottom" : 350,
-    "Width":400,
-    "Height" :50,
-    "TextSize" : 25,
-    "TextVerticalAlign": "Center",
-    "TextHorizontalAlign" :"Center",
-    "TextBold": "Yes"
-  }')
+
+  karistirilmisProLabel.Align=alCenter;
+  karistirilmisProLabel.Margins.Bottom=350;
+  karistirilmisProLabel.Width=310;
+  karistirilmisProLabel.Height=50;
+  karistirilmisProLabel.Margins.Left=150;
+  karistirilmisProLabel.Margins.Right=150;
+  karistirilmisProLabel.clProSettings.FontSize = 25;
+  karistirilmisProLabel.clProSettings.FontVertAlign=palCenter;
+  karistirilmisProLabel.clProSettings.FontHorzAlign=palCenter;
+  karistirilmisProLabel.SetclProSettings(karistirilmisProLabel.clProSettings);
 
   tahminetProLabel = oyunForm.AddNewProLabel(oyunForm,'tahminetProLabel','TAHMİN ET:');
-  clComponent.SetupComponent(tahminetProLabel,'{
-    "Align":"Center",
-    "MarginTop" : 70,
-    "Width":400,
-    "Height" :300,
-    "TextSize" : 25,
-    "TextVerticalAlign": "Center",
-    "TextHorizontalAlign" :"Center",
-    "TextBold": "Yes"
-  }')
+  tahminetProLabel.Align=alCenter;
+  tahminetProLabel.Margins.Top=70;
+  tahminetProLabel.Width=400;
+  tahminetProLabel.Height=300;
+  tahminetProLabel.clProSettings.FontSize = 25;
+  tahminetProLabel.clProSettings.FontVertAlign=palCenter;
+  tahminetProLabel.clProSettings.FontHorzAlign=palCenter;
+  tahminetProLabel.SetclProSettings(tahminetProLabel.clProSettings);
   
   tahminProEdit = oyunForm.AddNewProEdit(oyunForm, 'tahminProEdit', 'Tahminini Gir...');
-  clComponent.SetupComponent(tahminProEdit,'{
-    "Align" : "Center",
-    "MarginTop":280,
-    "Width":340,
-    "Height":60,
-    "TextSize" :25,
-    "TextHorizontalAlign " : "Center",
-    "TextVerticalAlign" : "Center",
-    "TextBold":"Yes",
-    "BackgroundColor":"#fefbec",
-    "RoundHeight":8,
-    "RoundWidth":8,
-    "BorderColor":"#94ae89",
-    "BorderWidth":2
-    
-  }')
+
+  tahminProEdit.Align=alCenter;
+  tahminProEdit.Margins.Top=280;
+  tahminProEdit.Width=340;
+  tahminProEdit.Height=60;
+  tahminProEdit.clProSettings.FontSize = 25;
+  tahminProEdit.clProSettings.FontVertAlign=palCenter;
+  tahminProEdit.clProSettings.FontHorzAlign=palCenter;
+  tahminProEdit.clProSettings.RoundHeight = 8;
+  tahminProEdit.clProSettings.RoundWidth = 8;
+  tahminProEdit.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+  tahminProEdit.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+  tahminProEdit.clProSettings.BorderWidth=2;
+  tahminProEdit.SetclProSettings(tahminProEdit.clProSettings);
+  
   oyunForm.AddNewEvent(oyunForm,tbeOnVirtualKeyboardShown,'VirtualKeyboardShow');
   oyunForm.AddNewEvent(oyunForm,tbeOnVirtualKeyboardHidden,'VirtualKeyboardHidden')
   
   tahminProEdit.clTypeOfField = taString; 
 
   tahminEtProButton = oyunForm.AddNewProButton(oyunForm, 'tahminEtProButton', 'KONTROL ET');
-  clComponent.SetupComponent(tahminEtProButton,
-  '{
-  "Align" : "Center",
-  "TextSize":15, 
-  "MarginTop" : 520,
-  "MarginLeft":200,
-  "Width" : 200,
-  "Height" : 50,
-  "RoundHeight" : 8,
-  "RoundWidth" : 8,
-  "BackgroundColor":"#fefbec",
-  "BorderColor":"#94ae89",
-  "BorderWidth" : 2
-  }');
+  tahminEtProButton.Align=alCenter;
+  tahminEtProButton.Margins.Top=520;
+  tahminEtProButton.Margins.Left=200;
+  tahminEtProButton.Width=200;
+  tahminEtProButton.Height=50;
+  tahminEtProButton.clProSettings.FontSize = 15;
+  tahminEtProButton.clProSettings.RoundHeight = 8;
+  tahminEtProButton.clProSettings.RoundWidth = 8;
+  tahminEtProButton.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+  tahminEtProButton.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+  tahminEtProButton.clProSettings.BorderWidth=2;
+  tahminEtProButton.SetclProSettings(tahminEtProButton.clProSettings);
+
   oyunForm.AddNewEvent(tahminEtProButton,tbeOnClick,'tahminEtButonClick');
   
   oyunForm.Run;
@@ -404,87 +433,80 @@ void baslaButonClick;
   kategoriProLabel = baslaForm.AddNewProLabel(baslaForm,'kategoriProLabel','HADİ BİR KATEGORİ SEÇ
   VE 
   TAHMİN ETMEYE BAŞLA!');
-  clComponent.SetupComponent(kategoriProLabel,'{
-    "Align":"Center",
-    "MarginBottom" : 520,
-    "Width":400,
-    "Height" :300,
-    "TextSize" : 25,
-    "TextVerticalAlign": "Center",
-    "TextHorizontalAlign" :"Center",
-    "TextBold": "Yes"
-  }')
+  kategoriProLabel.Align=alCenter;
+  kategoriProLabel.Margins.Bottom=520;
+  kategoriProLabel.Width=400;
+  kategoriProLabel.Height=300;
+  kategoriProLabel.clProSettings.FontSize = 25;
+  kategoriProLabel.clProSettings.FontVertAlign=palCenter;
+  kategoriProLabel.clProSettings.FontHorzAlign=palCenter;
+  kategoriProLabel.SetclProSettings(kategoriProLabel.clProSettings);
+
     
   fruitsButon = baslaForm.AddNewProButton(baslaForm, 'fruitsButon', 'Fruits');
-  clComponent.SetupComponent(fruitsButon,
-  '{
-  "Align" : "Center",
-  "TextSize":20, 
-  "MarginBottom" : 150,
-  "MarginRight":200,
-  "Width" : 170,
-  "Height" : 170,
-  "RoundHeight" : 8,
-  "RoundWidth" : 8,
-  "Bordercolor" : "#8eaaad",
-  "BackgroundColor":"#fefbec", 
-  "BorderWidth" : 2
+  fruitsButon.Align=alCenter;
+  fruitsButon.Margins.Bottom=150;
+  fruitsButon.Margins.Right=200;
+  fruitsButon.Width=170;
+  fruitsButon.Height=170;
+  fruitsButon.clProSettings.FontSize = 20;
+  fruitsButon.clProSettings.RoundHeight = 8;
+  fruitsButon.clProSettings.RoundWidth = 8;
+  fruitsButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  fruitsButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+  fruitsButon.clProSettings.BorderWidth=2;
+  fruitsButon.SetclProSettings(fruitsButon.clProSettings);
+
   
-  }');
   baslaForm.AddNewEvent(fruitsButon,tbeOnClick,'fruitsButonClick');
   //-------------------------------------------------------------------------------
   animalsButon = baslaForm.AddNewProButton(baslaForm, 'animalsButon', 'Animals');
-  clComponent.SetupComponent(animalsButon,
-  '{
-  "Align" : "Center",
-  "TextSize":20, 
-  "MarginBottom" : 150,
-  "MarginLeft":200,
-  "Width" : 170,
-  "Height" : 170,
-  "RoundHeight" : 8,
-  "RoundWidth" : 8,
-  "Bordercolor" : "#8eaaad",
-  "BackgroundColor":"#fefbec", 
-  "BorderWidth" : 2
+  animalsButon.Align=alCenter;
+  animalsButon.Margins.Bottom=150;
+  animalsButon.Margins.Left=200;
+  animalsButon.Width=170;
+  animalsButon.Height=170;
+  animalsButon.clProSettings.FontSize = 20;
+  animalsButon.clProSettings.RoundHeight = 8;
+  animalsButon.clProSettings.RoundWidth = 8;
+  animalsButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  animalsButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+  animalsButon.clProSettings.BorderWidth=2;
+  animalsButon.SetclProSettings(animalsButon.clProSettings);
   
-  }');
   baslaForm.AddNewEvent(animalsButon,tbeOnClick,'animalsButonClick');
   //--------------------------------------------------------------------------
   colorsButon = baslaForm.AddNewProButton(baslaForm, 'colorsButon', 'Colors');
-  clComponent.SetupComponent(colorsButon,
-  '{
-  "Align" : "Center",
-  "TextSize":20, 
-  "MarginTop" : 250,
-  "MarginRight":200,
-  "Width" : 170,
-  "Height" : 170,
-  "RoundHeight" : 8,
-  "RoundWidth" : 8,
-  "Bordercolor" : "#8eaaad",
-  "BackgroundColor":"#fefbec", 
-  "BorderWidth" : 2
+
+  colorsButon.Align=alCenter;
+  colorsButon.Margins.Top=250;
+  colorsButon.Margins.Right=200;
+  colorsButon.Width=170;
+  colorsButon.Height=170;
+  colorsButon.clProSettings.FontSize = 20;
+  colorsButon.clProSettings.RoundHeight = 8;
+  colorsButon.clProSettings.RoundWidth = 8;
+  colorsButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  colorsButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+  colorsButon.clProSettings.BorderWidth=2;
+  colorsButon.SetclProSettings(colorsButon.clProSettings);
   
-  }');
   baslaForm.AddNewEvent(colorsButon,tbeOnClick,'colorsButonClick');
   //--------------------------------------------------------------------
   jobsButon = baslaForm.AddNewProButton(baslaForm, 'jobsButon', 'Jobs');
-  clComponent.SetupComponent(jobsButon,
-  '{
-  "Align" : "Center",
-  "TextSize":20, 
-  "MarginTop" : 250,
-  "MarginLeft":200,
-  "Width" : 170,
-  "Height" : 170,
-  "RoundHeight" : 8,
-  "RoundWidth" : 8,
-  "Bordercolor" : "#8eaaad",
-  "BackgroundColor":"#fefbec", 
-  "BorderWidth" : 2
+  jobsButon.Align=alCenter;
+  jobsButon.Margins.Top=250;
+  jobsButon.Margins.Left=200;
+  jobsButon.Width=170;
+  jobsButon.Height=170;
+  jobsButon.clProSettings.FontSize = 20;
+  jobsButon.clProSettings.RoundHeight = 8;
+  jobsButon.clProSettings.RoundWidth = 8;
+  jobsButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  jobsButon.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+  jobsButon.clProSettings.BorderWidth=2;
+  jobsButon.SetclProSettings(jobsButon.clProSettings);
   
-  }');
   baslaForm.AddNewEvent(jobsButon,tbeOnClick,'jobsButonClick');
   //-------------------------------------------------------------
   
@@ -626,19 +648,19 @@ clickedBtn:TClButton;
   
 
   Panel = MyForm.AddNewProPanel(MyForm,'Panel');
-  clComponent.SetupComponent(Panel,'{
-    "BorderColor": "#8eaaad",
-    "BackgroundColor": "#ffffff", 
-    "RoundHeight": 8, 
-    "RoundWidth": 8, 
-    "BorderWidth":2,
-    "Height":70
-     }')
-    Panel.Align =alClient;
-    Panel.Margins.Left = 140;
-    Panel.Margins.Right = 140;
-    Panel.Margins.Top =465;
-    Panel.Margins.Bottom = 250;
+
+  Panel.Height=70;
+  Panel.clProSettings.RoundHeight = 8;
+  Panel.clProSettings.RoundWidth = 8;
+  Panel.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  Panel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#ffffff');
+  Panel.clProSettings.BorderWidth=2;
+  Panel.SetclProSettings(Panel.clProSettings);
+  Panel.Align =alClient;
+  Panel.Margins.Left = 140;
+  Panel.Margins.Right = 140;
+  Panel.Margins.Top =465;
+  Panel.Margins.Bottom = 250;
   
   for n = 0 to 1 
   {
@@ -662,39 +684,36 @@ clickedBtn:TClButton;
   }
   
   baslaButon = MyForm.AddNewProButton(MyForm, 'baslaButon', 'BAŞLA');
-  clComponent.SetupComponent(baslaButon,
-  '{
-  "Align" : "Center",
-  "TextSize":25, 
-  "MarginBottom" : 135,
-  "Width" : 250,
-  "Height" : 70,
-  "RoundHeight" : 5,
-  "RoundWidth" : 5,
-  "Bordercolor" : "#8eaaad",
-  "BorderWidth" : 2
+
+  baslaButon.Align=alCenter;
+  baslaButon.Margins.Bottom=135;
+  baslaButon.Width=250;
+  baslaButon.Height=70;
+  baslaButon.clProSettings.FontSize = 25;
+  baslaButon.clProSettings.RoundHeight = 5;
+  baslaButon.clProSettings.RoundWidth = 5;
+  baslaButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  baslaButon.clProSettings.BorderWidth=2;
+  baslaButon.SetclProSettings(baslaButon.clProSettings);
   
-  }');
   MyForm.AddNewEvent(baslaButon,tbeOnClick,'baslaButonClick');
   
   
   nasiloynanirButon = MyForm.AddNewProButton(MyForm, 'nasiloynanirButon', 'NASIL OYNANIR?');
-  clComponent.SetupComponent(nasiloynanirButon,
-  '{
-  "Align" : "Center",
-  "TextSize":25, 
-  "MarginTop" : 40,
-  "Width" : 250,
-  "Height" : 70,
-  "RoundHeight" : 5,
-  "RoundWidth" : 5,
-  "Bordercolor" : "#8eaaad",
-  "BorderWidth" : 2
+
+  nasiloynanirButon.Align=alCenter;
+  nasiloynanirButon.clProSettings.FontSize = 25;
+  nasiloynanirButon.Margins.Top=40;
+  nasiloynanirButon.Width=250;
+  nasiloynanirButon.Height=70;
+  nasiloynanirButon.clProSettings.RoundHeight = 5;
+  nasiloynanirButon.clProSettings.RoundWidth = 5;
+  nasiloynanirButon.clProSettings.BorderColor = clAlphaColor.clHexToColor('#8eaaad');
+  nasiloynanirButon.clProSettings.BorderWidth=2;
+  nasiloynanirButon.SetclProSettings(nasiloynanirButon.clProSettings);
   
-  }');
   MyForm.AddNewEvent(nasiloynanirButon,tbeOnClick,'nasiloynanirButonClick');
   
   MyForm.Run;
 
 }
-
