@@ -155,20 +155,19 @@ var
         {
           kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
 
-           kelimeProLabel = oyunForm.AddNewProLabel(oyunForm, 'kelimeProLabel', karisikKelime);
-            kelimeProLabel.Align=alCenter;
-            kelimeProLabel.Margins.Bottom=150;
-            kelimeProLabel.Width=340;
-            kelimeProLabel.Height=60;
-            kelimeProLabel.clProSettings.FontSize =25;
-            kelimeProLabel.clProSettings.FontVertAlign=palCenter;
-            kelimeProLabel.clProSettings.FontHorzAlign=palCenter;
-            kelimeProLabel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
-            kelimeProLabel.clProSettings.RoundHeight = 8;
-            kelimeProLabel.clProSettings.RoundWidth = 8;
-            kelimeProLabel.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
-            kelimeProLabel.clProSettings.BorderWidth=2;
-            kelimeProLabel.SetclProSettings(kelimeProLabel.clProSettings);
+          kelimeProLabel.Align=alCenter;
+          kelimeProLabel.Margins.Bottom=150;
+          kelimeProLabel.Width=340;
+          kelimeProLabel.Height=60;
+          kelimeProLabel.clProSettings.FontSize =25;
+          kelimeProLabel.clProSettings.FontVertAlign=palCenter;
+          kelimeProLabel.clProSettings.FontHorzAlign=palCenter;
+          kelimeProLabel.clProSettings.BackgroundColor = clAlphaColor.clHexToColor('#fefbec');
+          kelimeProLabel.clProSettings.RoundHeight = 8;
+          kelimeProLabel.clProSettings.RoundWidth = 8;
+          kelimeProLabel.clProSettings.BorderColor = clAlphaColor.clHexToColor('#94ae89');
+          kelimeProLabel.clProSettings.BorderWidth=2;
+          kelimeProLabel.SetclProSettings(kelimeProLabel.clProSettings);
             
         }
       }
