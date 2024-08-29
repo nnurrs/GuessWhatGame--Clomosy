@@ -24,3 +24,7 @@ Guess What, Clomosy ve TRObject dili kullanılarak geliştirilen bir kelime oyun
 ![Ekran görüntüsü 2024-08-22 132024](https://github.com/user-attachments/assets/577904c2-3058-47f3-9d5d-412d4badb0de)
 
 
+## Oyun Ekran Kaydı:
+
+https://github.com/user-attachments/assets/9a433b58-31c8-4a07-8349-6f9c7f463b10
+
